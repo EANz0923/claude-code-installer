@@ -39,11 +39,14 @@ def check_nodejs() -> Tuple[bool, Optional[str]]:
 def check_npm() -> Tuple[bool, Optional[str]]:
     """Check if npm is installed and return (installed, version)."""
     try:
+        # Use shell=True on Windows because npm is npm.cmd (batch file),
+        # which CreateProcess cannot find directly
         result = subprocess.run(
-            ["npm", "--version"],
+            "npm --version" if sys.platform == "win32" else ["npm", "--version"],
             capture_output=True,
             text=True,
             timeout=10,
+            shell=(sys.platform == "win32"),
             creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
         )
         if result.returncode == 0:

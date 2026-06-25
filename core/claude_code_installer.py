@@ -6,6 +6,27 @@ from typing import Callable, Optional
 
 LogCallback = Callable[[str], None]
 
+# On Windows, npm/claude are .cmd batch files that need shell=True
+_IS_WINDOWS = sys.platform == "win32"
+
+
+def _run_cmd(args: list[str], **kwargs) -> subprocess.CompletedProcess:
+    """Run a command, using shell=True on Windows for .cmd/.bat compatibility."""
+    if _IS_WINDOWS:
+        kwargs["shell"] = True
+        if isinstance(args, list):
+            args = " ".join(args)
+    return subprocess.run(args, **kwargs)
+
+
+def _popen_cmd(args: list[str], **kwargs) -> subprocess.Popen:
+    """Run a command via Popen, using shell=True on Windows."""
+    if _IS_WINDOWS:
+        kwargs["shell"] = True
+        if isinstance(args, list):
+            args = " ".join(args)
+    return subprocess.Popen(args, **kwargs)
+
 
 def check_claude_code() -> tuple[bool, str | None]:
     """Check if Claude Code CLI is installed.
@@ -13,12 +34,12 @@ def check_claude_code() -> tuple[bool, str | None]:
     Returns (installed, version_string_or_None).
     """
     try:
-        result = subprocess.run(
+        result = _run_cmd(
             ["claude", "--version"],
             capture_output=True,
             text=True,
             timeout=15,
-            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+            creationflags=subprocess.CREATE_NO_WINDOW if _IS_WINDOWS else 0,
         )
         if result.returncode == 0:
             version = result.stdout.strip() or "installed"
@@ -39,12 +60,12 @@ def configure_npm_mirror(on_log: LogCallback | None = None) -> bool:
         on_log(f"配置 npm 镜像源: {mirror_url}")
 
     try:
-        result = subprocess.run(
+        result = _run_cmd(
             ["npm", "config", "set", "registry", mirror_url],
             capture_output=True,
             text=True,
             timeout=30,
-            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+            creationflags=subprocess.CREATE_NO_WINDOW if _IS_WINDOWS else 0,
         )
         if result.returncode != 0:
             if on_log:
@@ -70,13 +91,13 @@ def install_claude_code(on_log: LogCallback | None = None) -> bool:
         on_log("运行: npm install -g @anthropic-ai/claude-code")
 
     try:
-        process = subprocess.Popen(
+        process = _popen_cmd(
             ["npm", "install", "-g", "@anthropic-ai/claude-code"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
-            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+            creationflags=subprocess.CREATE_NO_WINDOW if _IS_WINDOWS else 0,
         )
 
         for line in process.stdout:
