@@ -102,27 +102,29 @@ class ModelConfigTab(ttk.Frame):
         )
         self.show_key_btn.pack(side="left", padx=(8, 0))
 
-        # Help text
+        # Help text (tk.Label for reliable color on Windows)
         self.help_var = tk.StringVar()
-        help_label = ttk.Label(
+        self.help_label = tk.Label(
             config_frame,
             textvariable=self.help_var,
             font=FONT_SMALL,
-            foreground=COLOR_TEXT_SECONDARY,
-            background=COLOR_SURFACE,
+            fg=COLOR_TEXT_SECONDARY,
+            bg=COLOR_SURFACE,
+            justify="left",
         )
-        help_label.pack(fill="x", pady=(8, 0))
+        self.help_label.pack(fill="x", pady=(8, 0), anchor="w")
 
         # Validation message
         self.validation_var = tk.StringVar()
-        self.validation_label = ttk.Label(
+        self.validation_label = tk.Label(
             config_frame,
             textvariable=self.validation_var,
             font=FONT_SMALL,
-            foreground=COLOR_DANGER,
-            background=COLOR_SURFACE,
+            fg=COLOR_DANGER,
+            bg=COLOR_SURFACE,
+            justify="left",
         )
-        self.validation_label.pack(fill="x", pady=(4, 0))
+        self.validation_label.pack(fill="x", pady=(4, 0), anchor="w")
 
         # --- Actions ---
         actions_frame = ttk.Frame(self, style="Main.TFrame")
@@ -260,7 +262,7 @@ class ModelConfigTab(ttk.Frame):
 
         self.test_btn.configure(state="disabled", text="测试中...")
         self.validation_var.set("正在测试连接...")
-        self.validation_label.configure(foreground=COLOR_WARNING)
+        self.validation_label.configure(fg=COLOR_WARNING)
 
         def run_test():
             try:
@@ -278,9 +280,9 @@ class ModelConfigTab(ttk.Frame):
         self.validation_var.set(message)
 
         if ok:
-            self.validation_label.configure(foreground=COLOR_SUCCESS)
+            self.validation_label.configure(fg=COLOR_SUCCESS)
         else:
-            self.validation_label.configure(foreground=COLOR_DANGER)
+            self.validation_label.configure(fg=COLOR_DANGER)
 
     def _save_config(self):
         """Save the provider configuration."""

@@ -76,15 +76,15 @@ class InstallTab(ttk.Frame):
         )
         self.claude_btn.pack(side="left")
 
-        # Separator text
-        sep_frame = ttk.Frame(actions_frame, style="Surface.TFrame")
+        # Separator text (tk.Label for reliable color support)
+        sep_frame = tk.Frame(actions_frame, bg=COLOR_SURFACE)
         sep_frame.pack(fill="x", pady=(12, 0))
-        ttk.Label(
+        tk.Label(
             sep_frame,
             text="先安装依赖，再安装 Claude Code CLI。或点击下方一键完成全部安装。",
             font=FONT_SMALL,
-            foreground=COLOR_WARNING,
-            background=COLOR_SURFACE,
+            fg=COLOR_TEXT_SECONDARY,
+            bg=COLOR_SURFACE,
         ).pack(side="left")
 
         # One-click all button
