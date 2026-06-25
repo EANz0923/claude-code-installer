@@ -30,7 +30,7 @@ pyinstaller ^
     --hidden-import tkinter.ttk ^
     --noconfirm ^
     --clean ^
-    main.py
+    main.pyw
 
 if %errorlevel% equ 0 (
     echo.

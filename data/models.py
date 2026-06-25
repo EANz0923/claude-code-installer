@@ -34,9 +34,10 @@ COMPANIES: List[CompanyInfo] = [
         base_url="https://api.anthropic.com",
         provider_config_key="anthropic",
         models=[
-            ModelInfo("claude-opus-4-8", "Claude Opus 4.8", "最强 Opus 系列模型"),
-            ModelInfo("claude-sonnet-4-6", "Claude Sonnet 4.6", "最佳速度/智能平衡"),
+            ModelInfo("claude-opus-4-8", "Claude Opus 4.8", "最强旗舰模型"),
+            ModelInfo("claude-sonnet-4-6", "Claude Sonnet 4.6", "速度与智能的最佳平衡"),
             ModelInfo("claude-haiku-4-5", "Claude Haiku 4.5", "最快、最具性价比"),
+            ModelInfo("claude-fable-5", "Claude Fable 5", "最新创意模型"),
         ],
     ),
     CompanyInfo(
@@ -48,7 +49,7 @@ COMPANIES: List[CompanyInfo] = [
         provider_config_key="openai",
         models=[
             ModelInfo("gpt-4o", "GPT-4o", "旗舰多模态模型"),
-            ModelInfo("gpt-4o-mini", "GPT-4o Mini", "更小更快的变体"),
+            ModelInfo("gpt-4o-mini", "GPT-4o Mini", "快速轻量模型"),
             ModelInfo("o4-mini", "o4-mini", "推理模型"),
         ],
     ),
@@ -60,8 +61,9 @@ COMPANIES: List[CompanyInfo] = [
         base_url="",
         provider_config_key="google",
         models=[
-            ModelInfo("gemini-2.5-pro", "Gemini 2.5 Pro", "最强 Gemini 模型"),
+            ModelInfo("gemini-2.5-pro", "Gemini 2.5 Pro", "旗舰模型"),
             ModelInfo("gemini-2.5-flash", "Gemini 2.5 Flash", "快速高效"),
+            ModelInfo("gemini-2.5-flash-lite", "Gemini 2.5 Flash Lite", "最轻量快速"),
         ],
     ),
     CompanyInfo(
@@ -72,8 +74,8 @@ COMPANIES: List[CompanyInfo] = [
         base_url="https://api.deepseek.com",
         provider_config_key="deepseek",
         models=[
-            ModelInfo("deepseek-chat", "DeepSeek Chat (V3)", "通用对话模型"),
-            ModelInfo("deepseek-reasoner", "DeepSeek Reasoner (R1)", "深度推理模型"),
+            ModelInfo("deepseek-v4-flash", "DeepSeek V4 Flash", "快速模型"),
+            ModelInfo("deepseek-v4-pro", "DeepSeek V4 Pro", "旗舰模型"),
         ],
     ),
     CompanyInfo(
@@ -84,9 +86,8 @@ COMPANIES: List[CompanyInfo] = [
         base_url="https://api.moonshot.cn/v1",
         provider_config_key="moonshot",
         models=[
-            ModelInfo("moonshot-v1-8k", "Moonshot v1 (8K)", "标准上下文"),
-            ModelInfo("moonshot-v1-32k", "Moonshot v1 (32K)", "长上下文"),
-            ModelInfo("moonshot-v1-128k", "Moonshot v1 (128K)", "超长上下文"),
+            ModelInfo("kimi-latest", "Kimi Latest", "最新旗舰模型"),
+            ModelInfo("kimi-thinking", "Kimi Thinking", "深度思考模型"),
         ],
     ),
     CompanyInfo(
@@ -97,8 +98,8 @@ COMPANIES: List[CompanyInfo] = [
         base_url="https://open.bigmodel.cn/api/paas/v4",
         provider_config_key="zhipu",
         models=[
-            ModelInfo("glm-4-plus", "GLM-4 Plus", "旗舰模型"),
-            ModelInfo("glm-4-flash", "GLM-4 Flash", "快速版，支持免费额度"),
+            ModelInfo("glm-4.5", "GLM-4.5", "最新旗舰模型"),
+            ModelInfo("glm-4.5-flash", "GLM-4.5 Flash", "快速轻量模型"),
         ],
     ),
 ]

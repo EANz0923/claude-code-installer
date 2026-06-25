@@ -1,9 +1,12 @@
-"""Main application window with tabbed interface."""
+"""Main application window with tabbed interface - Dark Theme."""
 
 import tkinter as tk
 from tkinter import ttk
 
-from gui.styles import setup_styles, COLOR_BG, FONT_SMALL, COLOR_TEXT_SECONDARY
+from gui.styles import (
+    setup_styles, COLOR_BG, COLOR_TEXT, COLOR_TEXT_SECONDARY,
+    COLOR_PRIMARY, FONT_TITLE, FONT_SMALL, lbl,
+)
 from gui.widgets.install_tab import InstallTab
 from gui.widgets.model_config_tab import ModelConfigTab
 
@@ -18,86 +21,58 @@ class App:
         self._build_ui()
 
     def _setup_window(self):
-        """Configure the main window."""
         self.root.title("Claude Code CLI Installer")
         self.root.geometry("920x680")
         self.root.minsize(800, 600)
         self.root.configure(bg=COLOR_BG)
 
-        # Center on screen
         self.root.update_idletasks()
-        w = self.root.winfo_width()
-        h = self.root.winfo_height()
-        sw = self.root.winfo_screenwidth()
-        sh = self.root.winfo_screenheight()
-        x = (sw - w) // 2
-        y = (sh - h) // 2
-        self.root.geometry(f"+{x}+{y}")
+        w, h = self.root.winfo_width(), self.root.winfo_height()
+        sw, sh = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
+        self.root.geometry(f"+{(sw-w)//2}+{(sh-h)//2}")
 
-        # Try to set icon
         try:
             self.root.iconbitmap(default="resources/icon.ico")
         except Exception:
-            pass  # icon not critical
+            pass
 
     def _setup_styles(self):
-        """Initialize ttk styles."""
         self.style = setup_styles()
 
     def _build_ui(self):
-        """Build the main UI."""
         # Header
-        header = ttk.Frame(self.root, style="Main.TFrame")
-        header.pack(fill="x", padx=16, pady=(16, 0))
+        header = tk.Frame(self.root, bg=COLOR_BG)
+        header.pack(fill="x", padx=20, pady=(18, 4))
 
-        title = ttk.Label(
-            header,
-            text="Claude Code CLI Installer",
-            style="Title.TLabel",
-        )
+        title = tk.Label(header, text="Claude Code CLI Installer",
+                         font=FONT_TITLE, fg=COLOR_TEXT, bg=COLOR_BG)
         title.pack(side="left")
 
-        subtitle = ttk.Label(
-            header,
-            text="一键安装 · 国内镜像加速 · 模型配置",
-            font=FONT_SMALL,
-            foreground=COLOR_TEXT_SECONDARY,
-            background=COLOR_BG,
-        )
-        subtitle.pack(side="left", padx=(12, 0), pady=(4, 0))
+        sub = tk.Label(header, text="一键安装 · 国内镜像加速 · 模型配置",
+                       font=FONT_SMALL, fg=COLOR_TEXT_SECONDARY, bg=COLOR_BG)
+        sub.pack(side="left", padx=(14, 0), pady=(6, 0))
 
-        # Notebook (tab container)
+        # Divider
+        div = tk.Frame(self.root, bg="#21262d", height=1)
+        div.pack(fill="x", padx=20)
+
+        # Notebook
         self.notebook = ttk.Notebook(self.root)
-        self.notebook.pack(fill="both", expand=True, padx=16, pady=12)
+        self.notebook.pack(fill="both", expand=True, padx=20, pady=12)
 
-        # Install tab
         self.install_tab = InstallTab(self.notebook)
-        self.notebook.add(self.install_tab, text="  安装  ")
+        self.notebook.add(self.install_tab, text="   安装   ")
 
-        # Model config tab
         self.model_config_tab = ModelConfigTab(self.notebook)
         self.notebook.add(self.model_config_tab, text="  模型配置  ")
 
         # Status bar
-        status_bar = ttk.Frame(self.root, style="Main.TFrame")
-        status_bar.pack(fill="x", padx=16, pady=(0, 8))
+        sb = tk.Frame(self.root, bg=COLOR_BG)
+        sb.pack(fill="x", padx=20, pady=(0, 10))
 
-        ttk.Label(
-            status_bar,
-            text="适配国内网络环境 · 镜像源: npmmirror.com / mirrors.huaweicloud.com",
-            font=FONT_SMALL,
-            foreground=COLOR_TEXT_SECONDARY,
-            background=COLOR_BG,
-        ).pack(side="left")
-
-        ttk.Label(
-            status_bar,
-            text="v1.0.0",
-            font=FONT_SMALL,
-            foreground=COLOR_TEXT_SECONDARY,
-            background=COLOR_BG,
-        ).pack(side="right")
+        lbl(sb, "适配国内网络环境 · npmmirror.com / mirrors.huaweicloud.com",
+            font=FONT_SMALL, fg=COLOR_TEXT_SECONDARY, bg=COLOR_BG).pack(side="left")
+        lbl(sb, "v1.0.0", font=FONT_SMALL, fg=COLOR_TEXT_SECONDARY, bg=COLOR_BG).pack(side="right")
 
     def run(self):
-        """Start the application main loop."""
         self.root.mainloop()
