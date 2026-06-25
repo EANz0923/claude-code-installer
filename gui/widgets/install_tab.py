@@ -10,6 +10,8 @@ from gui.styles import (
     COLOR_SUCCESS,
     COLOR_DANGER,
     COLOR_WARNING,
+    COLOR_TEXT_SECONDARY,
+    COLOR_PRIMARY,
     FONT_HEADING,
     FONT_BODY,
     FONT_SMALL,
