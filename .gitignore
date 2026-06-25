@@ -1,0 +1,22 @@
+# Build output
+build/
+dist/
+*.spec
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Python
+*.egg-info/
+.eggs/
+
+# Temp
+*.tmp
+*.log
